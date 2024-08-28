@@ -1,0 +1,4 @@
+---
+# defaults file for git_repo_manager
+git_repos: []
+base_dir: "~/git-repos"

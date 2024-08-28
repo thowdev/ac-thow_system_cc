@@ -1,0 +1,6 @@
+---
+# tasks file for git_repo_manager
+- name: Ensure base directory exists
+  file:
+    path: "{{ base_dir }}"
+    state: directory
