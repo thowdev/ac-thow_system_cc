@@ -3,16 +3,10 @@
 ### Tasks to get all distro relevant information
 ################################################################################
 # ------------------------------------------------------------------------------
-- name: Gather OS facts
+- name: Gather all OS facts
   # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/setup_module.html
   ansible.builtin.setup:
-    gather_subset:
-      - '!all'
-      - '!any'
-      - distribution
-      - distribution_major_version
-      - distribution_release
-      - distribution_version
+  when: ansible_facts is not defined
 # ------------------------------------------------------------------------------
 - name: "Set \"distro\" variable (fact)"
   # https://docs.ansible.com/ansible/latest/modules/set_fact_module.html
