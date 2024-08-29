@@ -6,5 +6,7 @@
 ################################################################################
 ### Get distro information (name, version, ...)
 ################################################################################
-- name: "Get \"distro\" related information"
-  import_tasks: "1_get-common-distro-infos.yml"
+- name: "Get common \"os\" related information"
+  import_tasks: "1_get-common-os-infos.yml"
+- name: "Get common \"os\" related information"
+  import_tasks: "2_get-specific-os-infos.yml"

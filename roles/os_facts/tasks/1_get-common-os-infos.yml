@@ -20,11 +20,6 @@
     distro: "{{ (ansible_distribution + '-' +  ansible_distribution_version )|lower }}"
   when: 'distro is not defined'
 # ------------------------------------------------------------------------------
-- name: Include OS-specific variables ({{ distro }})
-  include_vars:
-    file: "{{ distro }}.yml"
-  ignore_errors: yes
-# ------------------------------------------------------------------------------
 - name: "Current \"distro\" variable"
   # https://docs.ansible.com/ansible/latest/modules/debug_module.html
   debug:
