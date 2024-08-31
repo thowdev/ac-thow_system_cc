@@ -1,0 +1,35 @@
+---
+################################################################################
+- name: Gather OS specific facts or report if already gathered
+  block:
+    - name: Gather OS specific facts
+      # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/setup_module.html
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - 'distribution'
+      when: ansible_facts is not defined
+      register: fact_gathering
+
+    - name: Report fact gathering status
+      debug:
+        msg: >-
+          {% if fact_gathering.changed %}
+          OS facts gathered by "{{ role_name }}"
+          {% else %}
+          OS facts already gathered by "{{ ansible_play_name }}"
+          {% endif %}
+
+################################################################################
+- name: "Set \"distro\" variable (fact)"
+  # https://docs.ansible.com/ansible/latest/modules/set_fact_module.html
+  set_fact:
+    distro: "{{ (ansible_distribution + '-' +  ansible_distribution_version )|lower }}"
+  when: 'distro is not defined'
+
+################################################################################
+- name: "Current \"distro\" variable"
+  # https://docs.ansible.com/ansible/latest/modules/debug_module.html
+  debug:
+    msg:
+      - "distro: {{ distro }}"
