@@ -15,9 +15,9 @@
       debug:
         msg: >-
           {% if fact_gathering.changed %}
-          OS facts gathered by "{{ role_name }}"
+          OS facts gathered by '{{ role_name }}'
           {% else %}
-          OS facts already gathered by "{{ ansible_play_name }}"
+          OS facts already gathered by '{{ ansible_play_name }}'
           {% endif %}
 
 ################################################################################
