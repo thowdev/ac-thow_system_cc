@@ -1,6 +1,87 @@
 ---
 # tasks file for git_repo_manager
-- name: Ensure base directory exists
-  file:
-    path: "{{ base_dir }}"
-    state: directory
+################################################################################
+#-------------------------------------------------------------------------------
+- name: Install Git on {{ distro }}
+  block:
+    - name: Install Git on {{ distro }}
+      community.general.homebrew:
+        name: git
+        state: latest
+      when: ansible_os_family == "Darwin"
+    - name: Install Git on {{ distro }}
+      ansible.builtin.package:
+        name: git
+        state: latest
+      when: ansible_os_family != "Darwin"
+
+  rescue:
+    - name: Report failure
+      ansible.builtin.debug:
+        msg: |
+          Failed to install Git.
+          Please check, if the system is supported and package manager is
+          available.
+#-------------------------------------------------------------------------------
+- name: Check Git directory structure
+  block:
+    - name: Assert "git_base_dir" is defined and stop playbook if not
+      ansible.builtin.assert:
+        that:
+          - git_base_dir is defined
+        fail_msg: "Variable 'git_base_dir' is not defined."
+
+    - name: Display "git_base_dir" status
+      debug:
+        msg: "Variable 'git_base_dir' is defined with value: {{ git_base_dir }}"
+      when: git_base_dir is defined
+
+    - name: Print gathered directories
+      ansible.builtin.debug:
+        msg: "Gathered directory: {{ item }}"
+      loop: "{{ git_dirs }}"
+
+    - name: Ensure directories exist
+      ansible.builtin.file:
+        path: "{{ item.values() | first }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ git_dirs }}"
+      register: dir_check
+
+    - name: Print directory check results
+      ansible.builtin.debug:
+        msg: "{{ item.item.values() | first }} {{ 'created or modified' if item.changed
+              else 'already exists' }}."
+      loop: "{{ dir_check.results }}"
+      loop_control:
+        label: "{{ item.item.values() | first }}"
+      when: item is changed or item.changed == false
+
+  rescue:
+    - name: Report failure
+      ansible.builtin.debug:
+        msg: |
+          Git directory structure not available or has failures.
+          Please check, Git directory structure under {{ git_base_dir }}
+#-------------------------------------------------------------------------------
+- name: Clone Git repositories
+  block:
+    - name: Clone or pull-rebase git repositories
+      ansible.builtin.git:
+        repo: "{{ item.repo }}"
+        clone: "{{ item.clone | default(yes) }}"
+        dest: "{{ item.dest }}"
+        version: "{{ item.version | default('main') }}"
+        verify_commit: "{{ item.verify_commit | default(no) }}"
+        update: yes
+        force: no
+      loop: "{{ git_repositories }}"
+
+  rescue:
+    - name: Report failure
+      ansible.builtin.debug:
+        msg: |
+          Cloning Git repositories failed.
+          Please check, Git directory structure under {{ git_base_dir }}
+#-------------------------------------------------------------------------------
