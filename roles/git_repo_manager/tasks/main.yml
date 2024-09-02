@@ -70,10 +70,10 @@
     - name: Clone or pull-rebase git repositories
       ansible.builtin.git:
         repo: "{{ item.repo }}"
-        clone: "{{ item.clone | default(yes) }}"
+        clone: '{{ item.clone | default(true) }}'
         dest: "{{ item.dest }}"
         version: "{{ item.version | default('main') }}"
-        verify_commit: "{{ item.verify_commit | default(no) }}"
+        verify_commit: "{{ item.verify_commit | default(false) }}"
         update: yes
         force: no
       loop: "{{ git_repositories }}"
