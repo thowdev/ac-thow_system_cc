@@ -77,6 +77,7 @@
         update: yes
         force: no
       loop: "{{ git_repositories }}"
+      #no_log: true
 
   rescue:
     - name: Report failure
