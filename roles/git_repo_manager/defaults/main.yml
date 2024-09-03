@@ -4,20 +4,15 @@
 git_base_dir: "/tmp"
 
 git_dirs:
-  - git_base_dir_public: "{{ git_base_dir }}/public"
-  - git_base_dir_private: "{{ git_base_dir }}/private"
-  - git_base_dir_work: "{{ git_base_dir }}/work"
+  - git_base_dir_gh: "{{ git_base_dir }}/gh"
+  - git_base_dir_gh_thowdev: "{{ git_base_dir }}/thowdev"
+  - git_base_dir_gh_thowdev_private: "{{ git_base_dir }}/thowdev/_private"
 
 git_repositories:
-  - repo: "git@github.com:thowdev/ac_thow_system_cc.git"
+  - name: ac_thow_system_cc
+    repo: "git@github.com:thowdev/ac_thow_system_cc.git"
     clone: yes
-    dest: "{{ git_base_dir_public }}/ac_thow_system_cc"
-    verify_commit: yes
-    version: main
-    forked: no
-  - repo: "git@github.com:thowdev/thow_system_cc.git"
-    clone: yes
-    dest: "{{ git_base_dir_private }}/thow_system_cc"
+    dest: "{{ git_base_dir_gh_thowdev }}/ac_thow_system_cc"
     verify_commit: yes
     version: main
     forked: no
