@@ -2,28 +2,30 @@
 # tasks file for git_repo_manager
 ################################################################################
 #-------------------------------------------------------------------------------
-- name: Install Git on {{ distro }}
+- name: Install git on {{ distro }}
   block:
-    - name: Install Git on {{ distro }}
+    - name: 'Install git on "Darwin" based OS'
       community.general.homebrew:
         name: git
         state: latest
       when: ansible_os_family == "Darwin"
-    - name: Install Git on {{ distro }}
+      tags: git_installation
+    - name: 'Install git on "Linux" based OS'
       ansible.builtin.package:
         name: git
         state: latest
       when: ansible_os_family != "Darwin"
+      tags: git_installation
 
   rescue:
-    - name: Report failure
+    - name: "Failure: Install git on {{ distro }}"
       ansible.builtin.debug:
         msg: |
-          Failed to install Git.
+          Failed to install git.
           Please check, if the system is supported and package manager is
           available.
 #-------------------------------------------------------------------------------
-- name: Check Git directory structure
+- name: Check git directory structure
   block:
     - name: Assert "git_base_dir" is defined and stop playbook if not
       ansible.builtin.assert:
@@ -59,13 +61,13 @@
       when: item is changed or item.changed == false
 
   rescue:
-    - name: Report failure
+    - name: "Failure: Check git directory structure"
       ansible.builtin.debug:
         msg: |
-          Git directory structure not available or has failures.
-          Please check, Git directory structure under {{ git_base_dir }}
+          git directory structure not available or has failures.
+          Please check, git directory structure under {{ git_base_dir }}
 #-------------------------------------------------------------------------------
-- name: Clone Git repositories
+- name: Clone git repositories
   block:
     - name: Clone or pull-rebase git repositories
       ansible.builtin.git:
@@ -81,9 +83,9 @@
       tags: git_cloning
 
   rescue:
-    - name: Report failure
+    - name: "Failure: Clone git repositories"
       ansible.builtin.debug:
         msg: |
-          Cloning Git repositories failed.
-          Please check, Git directory structure under {{ git_base_dir }}
+          Cloning git repositories failed.
+          Please check, git directory structure under {{ git_base_dir }}
 #-------------------------------------------------------------------------------
