@@ -81,6 +81,12 @@
       loop: "{{ git_repositories }}"
       #no_log: true
       ignore_errors: yes
+
+    - name: Set permissions on the cloned directories
+      ansible.builtin.file:
+        path: "{{ item.dest }}"
+        mode: '0750'
+      loop: "{{ git_repositories }}"
   tags: git_cloning
 
   rescue:
