@@ -1,0 +1,23 @@
+# all_symlinks by Jinja2 automation
+{% set all_symlinks = [] %}
+{% if git_dir_symlinks is defined and git_dir_symlinks %}
+{% for gdsl in git_dir_symlinks %}
+{% set _ = all_symlinks.append({'src': gdsl.src, 'dest': gdsl.dest}) %}
+{% endfor %}
+{% endif %}
+{% for repo in git_repositories %}
+{% if repo.symlinks is defined and repo.symlinks %}
+{% for reposl in repo.symlinks %}
+{% set _ = all_symlinks.append({'src': reposl.src, 'dest': reposl.dest}) %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+all_symlinks:
+{% if all_symlinks %}
+{% for symlink in all_symlinks %}
+  - src: "{{ symlink.src }}"
+    dest: "{{ symlink.dest }}"
+{% endfor %}
+{% else %}
+[]
+{% endif %}

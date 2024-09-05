@@ -3,6 +3,8 @@
 
 git_base_dir: "/tmp"
 
+git_repo_symlinks: "git_repository_symlinks"
+
 git_dirs:
   git_base_dir_gh: "{{ git_base_dir }}/gh"
   git_base_dir_gh_thowdev: "{{ git_base_dir }}/thowdev"

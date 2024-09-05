@@ -1,6 +1,16 @@
 ---
 # tasks file for git_repo_manager
 ################################################################################
+
+#-------------------------------------------------------------------------------
+- name: " Render template git repository symlinks {{ git_repo_symlinks }}.j2"
+  template:
+    src: "{{ git_repo_symlinks }}.j2"
+    dest: "{{ git_repo_symlinks }}.yml"
+    force: yes
+- name: Include vars from "{{ git_repo_symlinks }}.yml"
+  include_vars:
+    file: "{{ git_repo_symlinks }}.yml"
 #-------------------------------------------------------------------------------
 - name: Install git on {{ distro }}
   block:
@@ -98,18 +108,12 @@
 #-------------------------------------------------------------------------------
 - name: Manage symlinks
   block:
-    - name: Create {{ git_base_dir }} symlinks
+    - name: Create symlinks for individual directory git_repo structure
       ansible.builtin.file:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
         mode: '0750'
         state: link
         force: yes
-      loop: "{{ symlinks }}"
-
-    - name: Create git-repo symlinks
-      include_tasks: symlinking.yml
-      loop: "{{ git_repositories }}"
-      loop_control:
-        loop_var: git_repo
-      when: git_repo.symlinks is defined and git_repo.symlinks | length > 0
+      loop: "{{ all_symlinks }}"
+      when: all_symlinks | default([]) | length > 0

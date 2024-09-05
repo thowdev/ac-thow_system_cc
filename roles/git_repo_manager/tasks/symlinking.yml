@@ -1,9 +1,0 @@
----
-- name: "Create symlink(s) for {{ git_repo.name }}"
-  ansible.builtin.file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: '0750'
-    state: link
-    force: yes
-  loop: "{{ git_repo.symlinks }}"
