@@ -4,6 +4,7 @@
 git_base_dir: "/tmp"
 
 git_repo_symlinks: "git_repository_symlinks"
+git_repositories_file: "git_repositories"
 
 git_dirs:
   git_base_dir_gh: "{{ git_base_dir }}/gh"

@@ -1,0 +1,44 @@
+# git_repositories by Jinja2 automation
+
+git_repositories:
+{% for repo in git_repositories_gh %}
+  - name: {{ repo.name }}
+    repo: {{ repo.repo | default('git@github.com:' ~ repo.name ~ '.git') }}
+    dest: {{ repo.dest | default(git_dirs.git_base_dir_gh ~ '/' ~ repo.name) }}
+    clone: {{ repo.clone | default('yes') }}
+    forked: {{ repo.forked | default('no') }}
+    verify_commit: {{ repo.verify_commit | default('no') }}
+    version: {{ repo.version | default('main') }}
+{% endfor %}
+{% for repo in git_repositories_gh_thowdev_private %}
+  - name: {{ repo.name }}
+    repo: {{ repo.repo | default('git@github.com:' ~ github_org_thowdev ~ '/' ~ repo.name ~ '.git') }}
+    dest: {{ repo.dest | default(git_dirs.git_base_dir_gh_thowdev ~ '/' ~ repo.name) }}
+    clone: {{ repo.clone | default('yes') }}
+    forked: {{ repo.forked | default('no') }}
+    symlinks:
+      - src: "{{ git_dirs.git_base_dir_gh_thowdev }}/{{ repo.name }}"
+        dest: "{{ git_dirs.git_base_dir_gh_thowdev_private }}/{{ repo.name }}"
+{% if 'forked' in repo and (repo.forked == 'yes' or repo.forked is true) %}
+      - src: "{{ git_dirs.git_base_dir_gh_thowdev }}/{{ repo.name }}"
+        dest: "{{ git_dirs.git_base_dir_gh_thowdev_forks }}/{{ repo.name }}"
+{% endif %}
+    verify_commit: {{ repo.verify_commit | default('no') }}
+    version: {{ repo.version | default('main') }}
+{% endfor %}
+{% for repo in git_repositories_gh_thowdev_public %}
+  - name: {{ repo.name }}
+    repo: {{ repo.repo | default('git@github.com:' ~ github_org_thowdev ~ '/' ~ repo.name ~ '.git') }}
+    dest: {{ repo.dest | default(git_dirs.git_base_dir_gh_thowdev ~ '/' ~ repo.name) }}
+    clone: {{ repo.clone | default('yes') }}
+    forked: {{ repo.forked | default('no') }}
+    symlinks:
+      - src: "{{ git_dirs.git_base_dir_gh_thowdev }}/{{ repo.name }}"
+        dest: "{{ git_dirs.git_base_dir_gh_thowdev_public }}/{{ repo.name }}"
+{% if 'forked' in repo and (repo.forked == 'yes' or repo.forked is true) %}
+      - src: "{{ git_dirs.git_base_dir_gh_thowdev }}/{{ repo.name }}"
+        dest: "{{ git_dirs.git_base_dir_gh_thowdev_forks }}/{{ repo.name }}"
+{% endif %}
+    verify_commit: {{ repo.verify_commit | default('no') }}
+    version: {{ repo.version | default('main') }}
+{% endfor %}
