@@ -40,15 +40,15 @@
 
     - name: Print gathered directories
       ansible.builtin.debug:
-        msg: "Gathered directory: {{ item }}"
-      loop: "{{ git_dirs }}"
+        msg: 'Gathered directory: "{{ item.key }} : {{ item.value }}"'
+      loop: "{{ git_dirs | dict2items }}"
 
     - name: Ensure directories exist
       ansible.builtin.file:
-        path: "{{ item.values() | first }}"
+        path: "{{ item.value }}"
         state: directory
-        mode: '0755'
-      loop: "{{ git_dirs }}"
+        mode: '0750'
+      loop: "{{ git_dirs | dict2items }}"
       register: dir_check
 
     - name: Print directory check results
