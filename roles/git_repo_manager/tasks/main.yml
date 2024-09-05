@@ -80,6 +80,7 @@
         force: no
       loop: "{{ git_repositories }}"
       #no_log: true
+      ignore_errors: yes
   tags: git_cloning
 
   rescue:
