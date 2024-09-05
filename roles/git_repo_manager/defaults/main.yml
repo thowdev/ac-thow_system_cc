@@ -6,13 +6,30 @@ git_base_dir: "/tmp"
 git_dirs:
   git_base_dir_gh: "{{ git_base_dir }}/gh"
   git_base_dir_gh_thowdev: "{{ git_base_dir }}/thowdev"
-  git_base_dir_gh_thowdev_private: "{{ git_base_dir }}/thowdev/_private"
+  git_base_dir_gh_thowdev_forks: "{{ git_base_dir }}/thowdev/_forks"
+  git_base_dir_gh_thowdev_public: "{{ git_base_dir }}/thowdev/_public"
+
+git_dir_symlinks:
+  - src: "{{ git_dirs.git_base_dir_gh_thowdev_forks }}"
+    dest: "{{ git_base_dir }}/thowdev-forks"
 
 git_repositories:
   - name: ac_thow_system_cc
     repo: "git@github.com:thowdev/ac_thow_system_cc.git"
     clone: yes
-    dest: "{{ git_base_dir_gh_thowdev }}/ac_thow_system_cc"
+    dest: "{{ git_dirs.git_base_dir_gh_thowdev }}/ac_thow_system_cc"
     verify_commit: yes
     version: main
     forked: no
+  - name: uperf
+    repo: git@github.com:thowdev/uperf.git
+    dest: "{{ git_dirs.git_base_dir_gh_thowdev }}/uperf"
+    clone: yes
+    forked: True
+    symlinks:
+      - src: "{{ git_dirs.git_base_dir_gh_thowdev }}/uperf"
+        dest: "{{ git_dirs.git_base_dir_gh_thowdev_public }}/uperf"
+      - src: "{{ git_dirs.git_base_dir_gh_thowdev }}/uperf"
+        dest: "{{ git_dirs.git_base_dir_gh_thowdev_forks }}/uperf"
+    verify_commit: no
+    version: master
