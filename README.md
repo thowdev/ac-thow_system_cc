@@ -1,3 +1,4 @@
 # Ansible Collection - thowdev.ac_thow
 
-System command center - Ansible collection to administrate my systems
+This ansible collection contains a bunch of shared roles for other 
+collections.
