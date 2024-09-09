@@ -7,6 +7,7 @@ git_repositories:
     dest: {{ repo.dest | default(git_dirs.git_base_dir_gh ~ '/' ~ repo.name) }}
     clone: {{ repo.clone | default('yes') }}
     forked: {{ repo.forked | default('no') }}
+    remote: {{ repo.remote | default('origin') }}
     verify_commit: {{ repo.verify_commit | default('no') }}
     version: {{ repo.version | default('main') }}
 {% endfor %}
@@ -16,6 +17,7 @@ git_repositories:
     dest: {{ repo.dest | default(git_dirs.git_base_dir_gh_thowdev ~ '/' ~ repo.name) }}
     clone: {{ repo.clone | default('yes') }}
     forked: {{ repo.forked | default('no') }}
+    remote: {{ repo.remote | default('origin') }}
     symlinks:
       - src: "{{ git_dirs.git_base_dir_gh_thowdev }}/{{ repo.name }}"
         dest: "{{ git_dirs.git_base_dir_gh_thowdev_private }}/{{ repo.name }}"
@@ -32,6 +34,7 @@ git_repositories:
     dest: {{ repo.dest | default(git_dirs.git_base_dir_gh_thowdev ~ '/' ~ repo.name) }}
     clone: {{ repo.clone | default('yes') }}
     forked: {{ repo.forked | default('no') }}
+    remote: {{ repo.remote | default('origin') }}
     symlinks:
       - src: "{{ git_dirs.git_base_dir_gh_thowdev }}/{{ repo.name }}"
         dest: "{{ git_dirs.git_base_dir_gh_thowdev_public }}/{{ repo.name }}"
