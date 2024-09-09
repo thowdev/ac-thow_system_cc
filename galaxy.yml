@@ -5,7 +5,7 @@
 namespace: thowdev
 
 # The name of the collection. Has the same character restrictions as 'namespace'
-name: ac_thow_system_cc
+name: ac_thow
 
 # The version of the collection. Must be compatible with semantic versioning
 version: 0.0.1
@@ -45,16 +45,16 @@ dependencies:
 
 
 # The URL of the originating SCM repository
-repository: https://github.com/thowdev/ac_thow_system_cc
+repository: https://github.com/thowdev/ac_thow
 
 # The URL to any online docs
 documentation:
 
 # The URL to the homepage of the collection/project
-homepage: https://github.com/thowdev/ac_thow_system_cc
+homepage: https://github.com/thowdev/ac_thow
 
 # The URL to the collection issue tracker
-issues: https://github.com/thowdev/ac_thow_system_cc/issues
+issues: https://github.com/thowdev/ac_thow/issues
 
 # A list of file glob-like patterns used to filter any files or directories that should not be included in the build
 # artifact. A pattern is matched from the relative path of the file or directory of the collection directory. This

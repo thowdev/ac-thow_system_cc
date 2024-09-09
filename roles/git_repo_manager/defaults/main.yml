@@ -17,10 +17,10 @@ git_dir_symlinks:
     dest: "{{ git_base_dir }}/thowdev-forks"
 
 git_repositories:
-  - name: ac_thow_system_cc
-    repo: "git@github.com:thowdev/ac_thow_system_cc.git"
+  - name: ac_thow
+    repo: "git@github.com:thowdev/ac_thow.git"
     clone: yes
-    dest: "{{ git_dirs.git_base_dir_gh_thowdev }}/ac_thow_system_cc"
+    dest: "{{ git_dirs.git_base_dir_gh_thowdev }}/ac_thow"
     verify_commit: yes
     version: main
     forked: no
