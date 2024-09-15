@@ -53,12 +53,7 @@
         fail_msg: "Variable 'git_base_dir' is not defined."
         success_msg: "Variable 'git_base_dir' is defined: '{{ git_base_dir }}'"
 
-    - name: Print gathered directories
-      ansible.builtin.debug:
-        msg: 'Gathered directory: "{{ item.key }} : {{ item.value }}"'
-      loop: "{{ git_dirs | dict2items }}"
-
-    - name: Ensure directories exist
+    - name: Ensure directories from 'git_dirs' variable exist
       ansible.builtin.file:
         path: "{{ item.value }}"
         state: directory
