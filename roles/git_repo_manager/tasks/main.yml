@@ -51,11 +51,7 @@
         that:
           - git_base_dir is defined
         fail_msg: "Variable 'git_base_dir' is not defined."
-
-    - name: Display "git_base_dir" status
-      debug:
-        msg: "Variable 'git_base_dir' is defined with value: {{ git_base_dir }}"
-      when: git_base_dir is defined
+        success_msg: "Variable 'git_base_dir' is defined: '{{ git_base_dir }}'"
 
     - name: Print gathered directories
       ansible.builtin.debug:
