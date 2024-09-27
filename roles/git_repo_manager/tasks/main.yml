@@ -6,20 +6,22 @@
 - name: "Render template {{ git_repositories_file }}.j2"
   template:
     src: "{{ git_repositories_file }}.j2"
-    dest: "{{ git_repositories_file }}.yml"
+    dest: "/tmp/{{ git_repositories_file }}.yml"
     force: yes
-- name: Include vars from "{{ git_repositories_file }}.yml"
+  delegate_to: localhost
+- name: Include vars from "/tmp/{{ git_repositories_file }}.yml"
   include_vars:
-    file: "{{ git_repositories_file }}.yml"
+    file: "/tmp/{{ git_repositories_file }}.yml"
 #-------------------------------------------------------------------------------
 - name: " Render template {{ git_repo_symlinks }}.j2"
   template:
     src: "{{ git_repo_symlinks }}.j2"
-    dest: "{{ git_repo_symlinks }}.yml"
+    dest: "/tmp/{{ git_repo_symlinks }}.yml"
     force: yes
-- name: Include vars from "{{ git_repo_symlinks }}.yml"
+  delegate_to: localhost
+- name: Include vars from "/tmp/{{ git_repo_symlinks }}.yml"
   include_vars:
-    file: "{{ git_repo_symlinks }}.yml"
+    file: "/tmp/{{ git_repo_symlinks }}.yml"
 #-------------------------------------------------------------------------------
 - name: Install git on {{ distro }}
   block:
